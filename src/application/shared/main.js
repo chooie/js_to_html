@@ -1,6 +1,6 @@
 exports.toHtml = function toHtml(structureToConvert) {
   const htmlToReturn =
-    "<html>" + convertArrayToHtml(structureToConvert, 0) + "</html>";
+    "\n<html>" + convertArrayToHtml(structureToConvert, 0) + "</html>";
   return htmlToReturn;
 };
 
