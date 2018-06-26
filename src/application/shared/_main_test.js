@@ -13,4 +13,17 @@ describe("SHARED: Main", function() {
       |</html>`;
     assert.equal(convertedStructure, expectedHtml);
   });
+
+  it("handles text in element", function() {
+    const structureToConvert = [["head"], ["body", "Hello, world!"]];
+    const convertedStructure = main.toHtml(structureToConvert);
+    const expectedHtml = util.stripMargin`
+      |<html>
+      |  <head></head>
+      |  <body>
+      |    Hello, world!
+      |  </body>
+      |</html>`;
+    assert.equal(convertedStructure, expectedHtml);
+  });
 });

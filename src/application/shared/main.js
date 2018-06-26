@@ -9,11 +9,46 @@ function convertArrayToHtml(htmlArray, indentLevel) {
   return htmlArray.reduce(function(accumulatedString, elementArray) {
     if (elementArray.length === 1) {
       const elementTag = elementArray[0];
-      return (
-        accumulatedString +
-        " ".repeat(adjustedIndentLevel) +
-        `<${elementTag}></${elementTag}>\n`
+      return makeStringElement(
+        accumulatedString,
+        elementTag,
+        adjustedIndentLevel
+      );
+    } else {
+      const elementTag = elementArray[0];
+      const elementBody = elementArray[1];
+      const innerElement =
+        "\n" +
+        fillWhiteSpace(adjustedIndentLevel + 2) +
+        elementBody +
+        "\n" +
+        fillWhiteSpace(adjustedIndentLevel);
+      return makeStringElement(
+        accumulatedString,
+        elementTag,
+        adjustedIndentLevel,
+        innerElement
       );
     }
   }, "\n");
+}
+
+function makeStringElement(
+  stringToAppend,
+  elementTag,
+  indentLevel,
+  innerElement
+) {
+  if (!innerElement) innerElement = "";
+  return (
+    stringToAppend +
+    fillWhiteSpace(indentLevel) +
+    `<${elementTag}>` +
+    innerElement +
+    `</${elementTag}>\n`
+  );
+}
+
+function fillWhiteSpace(indentLevel) {
+  return " ".repeat(indentLevel);
 }
