@@ -1,43 +1,51 @@
 exports.toHtml = function toHtml(structureToConvert) {
   const htmlToReturn =
-    "\n<html>" + convertArrayToHtml(structureToConvert, 0) + "</html>";
+    "\n<!DOCTYPE html>\n" + convertElementToHtml(0, structureToConvert);
   return htmlToReturn;
 };
 
-function convertArrayToHtml(htmlArray, indentLevel) {
-  const adjustedIndentLevel = indentLevel + 2;
-  return htmlArray.reduce(function(accumulatedString, elementArray) {
-    return (
-      accumulatedString +
-      convertElementToHtml(adjustedIndentLevel, elementArray)
-    );
-  }, "\n");
+function convertElementToHtml(indentLevel, elementArray) {
+  if (isAnEmptyElement(elementArray)) {
+    return handleEmptyElement(indentLevel, elementArray);
+  } else {
+    return handleNestedElement(indentLevel, elementArray);
+  }
 }
 
-function convertElementToHtml(indentLevel, elementArray) {
-  if (elementArray.length === 1) {
-    const elementTag = elementArray[0];
-    return makeStringElement(elementTag, indentLevel);
-  } else {
-    const elementTag = elementArray[0];
-    const elementBody = elementArray[1];
+function isAnEmptyElement(elementArray) {
+  return elementArray.length === 1;
+}
 
-    if (typeof elementBody === "string") {
-      const innerElement =
-        "\n" +
-        fillWhiteSpace(indentLevel + 2) +
-        elementBody +
-        "\n" +
-        fillWhiteSpace(indentLevel);
-      return makeStringElement(elementTag, indentLevel, innerElement);
-    } else if (Array.isArray(elementBody)) {
-      const innerElement =
-        "\n" +
-        convertElementToHtml(indentLevel + 2, elementBody) +
-        fillWhiteSpace(indentLevel);
-      return makeStringElement(elementTag, indentLevel, innerElement);
+function handleEmptyElement(indentLevel, elementArray) {
+  const elementTag = first(elementArray);
+  return makeStringElement(elementTag, indentLevel);
+}
+
+function handleNestedElement(indentLevel, elementArray) {
+  const elementTag = first(elementArray);
+  const remainingElements = rest(elementArray);
+  let accumulatedString = fillWhiteSpace(indentLevel) + `<${elementTag}>\n`;
+  accumulatedString += convertElementsToString(
+    accumulatedString,
+    remainingElements,
+    indentLevel
+  );
+  return accumulatedString + fillWhiteSpace(indentLevel) + `</${elementTag}>\n`;
+}
+
+function convertElementsToString(
+  accumulatedString,
+  remainingElements,
+  indentLevel
+) {
+  return remainingElements.reduce(function(accumulatedString, element) {
+    if (typeof element === "string") {
+      return (
+        accumulatedString + fillWhiteSpace(indentLevel + 2) + element + "\n"
+      );
     }
-  }
+    return accumulatedString + convertElementToHtml(indentLevel + 2, element);
+  }, "");
 }
 
 function makeStringElement(elementTag, indentLevel, innerElement) {
@@ -52,4 +60,12 @@ function makeStringElement(elementTag, indentLevel, innerElement) {
 
 function fillWhiteSpace(indentLevel) {
   return " ".repeat(indentLevel);
+}
+
+function first(array) {
+  return array[0];
+}
+
+function rest(array) {
+  return array.slice(1);
 }
