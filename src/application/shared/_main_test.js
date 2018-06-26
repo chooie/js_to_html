@@ -26,4 +26,19 @@ describe("SHARED: Main", function() {
       |</html>`;
     assert.equal(convertedStructure, expectedHtml);
   });
+
+  it("handles a paragraph element in an element", function() {
+    const structureToConvert = [["head"], ["body", ["p", "Hello, world!"]]];
+    const convertedStructure = main.toHtml(structureToConvert);
+    const expectedHtml = util.stripMargin`
+      |<html>
+      |  <head></head>
+      |  <body>
+      |    <p>
+      |      Hello, world!
+      |    </p>
+      |  </body>
+      |</html>`;
+    assert.equal(convertedStructure, expectedHtml);
+  });
 });

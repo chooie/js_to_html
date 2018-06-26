@@ -7,41 +7,42 @@ exports.toHtml = function toHtml(structureToConvert) {
 function convertArrayToHtml(htmlArray, indentLevel) {
   const adjustedIndentLevel = indentLevel + 2;
   return htmlArray.reduce(function(accumulatedString, elementArray) {
-    if (elementArray.length === 1) {
-      const elementTag = elementArray[0];
-      return makeStringElement(
-        accumulatedString,
-        elementTag,
-        adjustedIndentLevel
-      );
-    } else {
-      const elementTag = elementArray[0];
-      const elementBody = elementArray[1];
-      const innerElement =
-        "\n" +
-        fillWhiteSpace(adjustedIndentLevel + 2) +
-        elementBody +
-        "\n" +
-        fillWhiteSpace(adjustedIndentLevel);
-      return makeStringElement(
-        accumulatedString,
-        elementTag,
-        adjustedIndentLevel,
-        innerElement
-      );
-    }
+    return (
+      accumulatedString +
+      convertElementToHtml(adjustedIndentLevel, elementArray)
+    );
   }, "\n");
 }
 
-function makeStringElement(
-  stringToAppend,
-  elementTag,
-  indentLevel,
-  innerElement
-) {
+function convertElementToHtml(indentLevel, elementArray) {
+  if (elementArray.length === 1) {
+    const elementTag = elementArray[0];
+    return makeStringElement(elementTag, indentLevel);
+  } else {
+    const elementTag = elementArray[0];
+    const elementBody = elementArray[1];
+
+    if (typeof elementBody === "string") {
+      const innerElement =
+        "\n" +
+        fillWhiteSpace(indentLevel + 2) +
+        elementBody +
+        "\n" +
+        fillWhiteSpace(indentLevel);
+      return makeStringElement(elementTag, indentLevel, innerElement);
+    } else if (Array.isArray(elementBody)) {
+      const innerElement =
+        "\n" +
+        convertElementToHtml(indentLevel + 2, elementBody) +
+        fillWhiteSpace(indentLevel);
+      return makeStringElement(elementTag, indentLevel, innerElement);
+    }
+  }
+}
+
+function makeStringElement(elementTag, indentLevel, innerElement) {
   if (!innerElement) innerElement = "";
   return (
-    stringToAppend +
     fillWhiteSpace(indentLevel) +
     `<${elementTag}>` +
     innerElement +
