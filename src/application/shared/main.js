@@ -5,11 +5,22 @@ exports.toHtml = function toHtml(structureToConvert) {
 };
 
 function convertElementToHtml(indentLevel, elementArray) {
+  if (!Array.isArray(elementArray)) {
+    const dataType = typeof elementArray;
+    throw new Error(`Expected an element array but got '${dataType}'.`);
+  }
+  if (isEmpty(elementArray)) {
+    throw new Error("Empty arrays are not a valid input.");
+  }
   if (isAnEmptyElement(elementArray)) {
     return handleEmptyElement(indentLevel, elementArray);
   } else {
     return handleNestedElement(indentLevel, elementArray);
   }
+}
+
+function isEmpty(array) {
+  return array.length === 0;
 }
 
 function isAnEmptyElement(elementArray) {

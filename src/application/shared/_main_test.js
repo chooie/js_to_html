@@ -100,4 +100,17 @@ describe("SHARED: Main", function() {
       |`;
     assert.equal(convertedStructure, expectedHtml);
   });
+
+  it("errors when information is missing or non-array is passed", function() {
+    const wrongDataType = "Wrong";
+    assert.exception(
+      () => main.toHtml(wrongDataType),
+      "Expected an element array but got 'string'."
+    );
+    const emptyArray = ["html", ["div", []]];
+    assert.exception(
+      () => main.toHtml(emptyArray),
+      "Empty arrays are not a valid input."
+    );
+  });
 });
