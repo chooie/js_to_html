@@ -110,7 +110,13 @@ describe("SHARED: Main", function() {
     const emptyArray = ["html", ["div", []]];
     assert.exception(
       () => main.toHtml(emptyArray),
-      "Empty arrays are not a valid input."
+      util.stripMargin`
+      |Empty arrays are not a valid input.
+      |Context: [
+      |  "div",
+      |  []
+      |]
+      |`
     );
   });
 });
