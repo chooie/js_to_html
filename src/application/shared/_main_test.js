@@ -105,7 +105,7 @@ describe("SHARED: Main", function() {
     const wrongDataType = "Wrong";
     assert.exception(
       () => main.toHtml(wrongDataType),
-      "Expected an element array but got 'string'."
+      "Expected an element array but got '\"Wrong\"' of type 'string'."
     );
     const emptyArray = ["html", ["div", []]];
     assert.exception(
@@ -118,5 +118,66 @@ describe("SHARED: Main", function() {
       |]
       |`
     );
+  });
+
+  it("handles html attributes for empty elements", function() {
+    const structureToConvert = [
+      "html",
+      ["head"],
+      ["body", ["div", ["h1", { class: "class1" }], ["p", { class: "class2" }]]]
+    ];
+    const convertedStructure = main.toHtml(structureToConvert);
+    const expectedHtml = util.stripMargin`
+      |<!DOCTYPE html>
+      |<html>
+      |  <head></head>
+      |  <body>
+      |    <div>
+      |      <h1 class="class1">
+      |      </h1>
+      |      <p class="class2">
+      |      </p>
+      |    </div>
+      |  </body>
+      |</html>
+      |`;
+    assert.equal(convertedStructure, expectedHtml);
+  });
+
+  it("handles html attributes for nested elements", function() {
+    const structureToConvert = [
+      "html",
+      ["head"],
+      [
+        "body",
+        [
+          "div",
+          ["h1", { class: "class1" }, ["span", "Hello, world!"]],
+          ["p", { class: "class2" }, ["span", "Goodbye, world!"]]
+        ]
+      ]
+    ];
+    const convertedStructure = main.toHtml(structureToConvert);
+    const expectedHtml = util.stripMargin`
+      |<!DOCTYPE html>
+      |<html>
+      |  <head></head>
+      |  <body>
+      |    <div>
+      |      <h1 class="class1">
+      |        <span>
+      |          Hello, world!
+      |        </span>
+      |      </h1>
+      |      <p class="class2">
+      |        <span>
+      |          Goodbye, world!
+      |        </span>
+      |      </p>
+      |    </div>
+      |  </body>
+      |</html>
+      |`;
+    assert.equal(convertedStructure, expectedHtml);
   });
 });

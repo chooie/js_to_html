@@ -8,8 +8,11 @@ exports.toHtml = function toHtml(structureToConvert) {
 
 function convertElementToHtml(indentLevel, elementArray, arrayContext) {
   if (!Array.isArray(elementArray)) {
+    const dataString = JSON.stringify(elementArray, null, 2);
     const dataType = typeof elementArray;
-    throw new Error(`Expected an element array but got '${dataType}'.`);
+    throw new Error(
+      `Expected an element array but got '${dataString}' of type '${dataType}'.`
+    );
   }
   if (isEmpty(elementArray)) {
     const contextString = JSON.stringify(arrayContext, null, 2);
@@ -31,7 +34,17 @@ function isEmpty(array) {
 }
 
 function isAnEmptyElement(elementArray) {
-  return elementArray.length === 1;
+  return (
+    elementArray.length === 1 || isAnEmptyElementWithAttributes(elementArray)
+  );
+
+  function isAnEmptyElementWithAttributes(elementArray) {
+    const secondElement = second(elementArray);
+    elementArray.length === 2 &&
+      secondElement &&
+      typeof secondElement === "object" &&
+      !Array.isArray(elementArray);
+  }
 }
 
 function handleEmptyElement(indentLevel, elementArray) {
@@ -41,8 +54,19 @@ function handleEmptyElement(indentLevel, elementArray) {
 
 function handleNestedElement(indentLevel, elementArray) {
   const elementTag = first(elementArray);
-  const remainingElements = rest(elementArray);
-  let accumulatedString = fillWhiteSpace(indentLevel) + `<${elementTag}>\n`;
+  let remainingElements = rest(elementArray);
+  const firstRemaining = first(remainingElements);
+  let accumulatedString = fillWhiteSpace(indentLevel) + `<${elementTag}`;
+
+  if (typeof firstRemaining === "object" && !Array.isArray(firstRemaining)) {
+    remainingElements = rest(remainingElements);
+    const keys = Object.keys(firstRemaining);
+    keys.forEach(function(key) {
+      accumulatedString += " " + key + '="' + firstRemaining[key] + '"';
+    });
+  }
+
+  accumulatedString += ">\n";
   accumulatedString += convertElementsToHtml(
     accumulatedString,
     remainingElements,
@@ -87,6 +111,10 @@ function fillWhiteSpace(indentLevel) {
 
 function first(array) {
   return array[0];
+}
+
+function second(array) {
+  return array[1];
 }
 
 function rest(array) {
