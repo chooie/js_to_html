@@ -2,7 +2,7 @@ const jsToHtml = require("../shared/main.js");
 const util = require("../shared/util.js");
 
 exports.makeIndexPage = function makeIndexPage() {
-  return jsToHtml.toHtml([
+  return jsToHtml.convert([
     "html",
     [
       "head",
@@ -26,7 +26,7 @@ exports.makeIndexPage = function makeIndexPage() {
 };
 
 exports.make404Page = function make404Page() {
-  return jsToHtml.toHtml([
+  return jsToHtml.convert([
     "html",
     [
       "head",

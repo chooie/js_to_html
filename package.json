@@ -1,5 +1,8 @@
 {
-  "name": "jake-testing",
+  "name": "js_to_html",
+  "version": "1.0.0",
+  "description": "Convert JS data structures to HTML text",
+  "main": "src/application/shared/main.js",
   "engines": {
     "node": "9.4.0"
   },
@@ -14,6 +17,8 @@
       "git add"
     ]
   },
+  "author": "Charles Hebert",
+  "license": "ISC",
   "devDependencies": {
     "browserify": "16.2.0",
     "chromedriver": "2.37.0",

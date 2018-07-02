@@ -1,4 +1,4 @@
-# Automatopia-nodejs
+# JS to HTML
 This repo is a web-application template that provides sufficient tooling for
 testing at the unit, integration, and end-to-end level.
 

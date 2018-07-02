@@ -1,6 +1,6 @@
 const util = require("./util.js");
 
-exports.toHtml = function toHtml(structureToConvert) {
+exports.convert = function toHtml(structureToConvert) {
   const htmlToReturn =
     "\n<!DOCTYPE html>\n" + convertElementToHtml(0, structureToConvert);
   return htmlToReturn;

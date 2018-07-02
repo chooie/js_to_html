@@ -5,7 +5,7 @@ const util = require("./util.js");
 describe("SHARED: Main", function() {
   it("gets valid html", function() {
     const structureToConvert = ["html", ["head"], ["body"]];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -18,7 +18,7 @@ describe("SHARED: Main", function() {
 
   it("handles text in element", function() {
     const structureToConvert = ["html", ["head"], ["body", "Hello, world!"]];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -37,7 +37,7 @@ describe("SHARED: Main", function() {
       ["head"],
       ["body", ["p", "Hello, world!"]]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -58,7 +58,7 @@ describe("SHARED: Main", function() {
       ["head"],
       ["body", ["div", ["p", "Hello, world!"]]]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -81,7 +81,7 @@ describe("SHARED: Main", function() {
       ["head"],
       ["body", ["div", ["h1", "Hello, world!"], ["p", "Goodbye, world!"]]]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -104,12 +104,12 @@ describe("SHARED: Main", function() {
   it("errors when information is missing or non-array is passed", function() {
     const wrongDataType = "Wrong";
     assert.exception(
-      () => main.toHtml(wrongDataType),
+      () => main.convert(wrongDataType),
       "Expected an element array but got '\"Wrong\"' of type 'string'."
     );
     const emptyArray = ["html", ["div", []]];
     assert.exception(
-      () => main.toHtml(emptyArray),
+      () => main.convert(emptyArray),
       util.stripMargin`
       |Empty arrays are not a valid input.
       |Context: [
@@ -126,7 +126,7 @@ describe("SHARED: Main", function() {
       ["head"],
       ["body", ["div", ["h1", { class: "class1" }], ["p", { class: "class2" }]]]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -157,7 +157,7 @@ describe("SHARED: Main", function() {
         ]
       ]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -194,7 +194,7 @@ describe("SHARED: Main", function() {
         ]
       ]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
@@ -227,7 +227,7 @@ describe("SHARED: Main", function() {
         makeListOfNames(["Charlie", "Rachael", "Maddie", "Lilla", "Paul"])
       ]
     ];
-    const convertedStructure = main.toHtml(structureToConvert);
+    const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
       |<html>
