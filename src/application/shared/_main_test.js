@@ -180,4 +180,96 @@ describe("SHARED: Main", function() {
       |`;
     assert.equal(convertedStructure, expectedHtml);
   });
+
+  it("handles html attributes for nested elements", function() {
+    const structureToConvert = [
+      "html",
+      ["head"],
+      [
+        "body",
+        [
+          "div",
+          ["h1", { class: "class1" }, ["span", "Hello, world!"]],
+          ["p", { class: "class2" }, ["span", "Goodbye, world!"]]
+        ]
+      ]
+    ];
+    const convertedStructure = main.toHtml(structureToConvert);
+    const expectedHtml = util.stripMargin`
+      |<!DOCTYPE html>
+      |<html>
+      |  <head></head>
+      |  <body>
+      |    <div>
+      |      <h1 class="class1">
+      |        <span>
+      |          Hello, world!
+      |        </span>
+      |      </h1>
+      |      <p class="class2">
+      |        <span>
+      |          Goodbye, world!
+      |        </span>
+      |      </p>
+      |    </div>
+      |  </body>
+      |</html>
+      |`;
+    assert.equal(convertedStructure, expectedHtml);
+  });
+
+  it("allows you to combine elements", function() {
+    const structureToConvert = [
+      "html",
+      ["head", makeTitle("Hey")],
+      [
+        "body",
+        makeListOfNames(["Charlie", "Rachael", "Maddie", "Lilla", "Paul"])
+      ]
+    ];
+    const convertedStructure = main.toHtml(structureToConvert);
+    const expectedHtml = util.stripMargin`
+      |<!DOCTYPE html>
+      |<html>
+      |  <head>
+      |    <title>
+      |      Hey
+      |    </title>
+      |  </head>
+      |  <body>
+      |    <ul>
+      |      <li>
+      |        Charlie
+      |      </li>
+      |      <li>
+      |        Rachael
+      |      </li>
+      |      <li>
+      |        Maddie
+      |      </li>
+      |      <li>
+      |        Lilla
+      |      </li>
+      |      <li>
+      |        Paul
+      |      </li>
+      |    </ul>
+      |  </body>
+      |</html>
+      |`;
+    assert.equal(convertedStructure, expectedHtml);
+  });
 });
+
+function makeTitle(title) {
+  return ["title", title];
+}
+
+function makeListOfNames(names) {
+  return [
+    "ul",
+    ...names.map(function(name) {
+      return ["li", name];
+    })
+  ];
+}

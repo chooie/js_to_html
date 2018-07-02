@@ -1,5 +1,10 @@
 const express = require("express");
 const util = require("util");
+const main = require("../shared/main.js");
+
+function makeTitle(title) {
+  return ["title", title];
+}
 
 exports.make = function make(portNumber, contentDir, notFoundPageToServe) {
   const httpServer = express();
@@ -8,7 +13,17 @@ exports.make = function make(portNumber, contentDir, notFoundPageToServe) {
   httpServer.set("view engine", "pug");
 
   httpServer.get("/", function(req, res) {
-    res.render("index", { title: "Home - Automatopia NodeJS" });
+    res.set("Content-Type", "text/html");
+    const contentHtml = main.toHtml([
+      "html",
+      [
+        "head",
+        "<!-- App home page -->",
+        makeTitle("Home - Automatopia NodeJS")
+      ],
+      ["body", ["h1", { id: "header-text" }, "Hello, world!"]]
+    ]);
+    res.status(400).send(contentHtml);
   });
 
   httpServer.use(express.static(contentDir));
