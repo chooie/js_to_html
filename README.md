@@ -1,9 +1,5 @@
 # JS to HTML
-This repo is a web-application template that provides sufficient tooling for
-testing at the unit, integration, and end-to-end level.
-
-There is a strong focus on automation and static analysis (linting). Tests can
-also be run incrementally to keep the feedback loop as tight as possible.
+Convert JS data structures to HTML text.
 
 ## Development
 View the available tasks to run
