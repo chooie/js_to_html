@@ -1,5 +1,5 @@
 {
-  "name": "js_to_html",
+  "name": "@chooie/js_to_html",
   "version": "1.0.0",
   "description": "Convert JS data structures to HTML text",
   "main": "src/application/shared/main.js",
