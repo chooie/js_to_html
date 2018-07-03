@@ -11,11 +11,17 @@ function convert(element: Element): String
 
 An Element is:
 
-`[elementName: String, ?&element: Element]`
+`[elementName: String, ?&element: Element || ?&text: String]`
 
 or
 
-`[elementName: String, htmlAttributes: { String: String }, ?&element: Element]`
+```
+[
+  elementName: String,
+  htmlAttributes: { String: String },
+  ?&element: Element || ?&text: String
+]
+```
 
 ## Example
 ```js
