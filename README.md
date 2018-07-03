@@ -53,7 +53,7 @@ function makeListOfNames(names) {
 }
 ```
 
-===>
+outputs
 
 ```html
 <!DOCTYPE html>
@@ -92,6 +92,17 @@ function makeListOfNames(names) {
   </body>
 </html>
 ```
+
+## Why use this approach?
+- It's just JavaScript data structures. No need to learn a new paradigm or
+  special syntax.
+- Because it's JavaScript, you can use all the powerful programming constructs
+  that the language provides: looping, array concatenation, variables,
+  functions, etc.
+
+## Roadmap
+- Express template engine
+- <<Your suggestion here!\>\>
 
 ## Development
 View the available tasks to run
