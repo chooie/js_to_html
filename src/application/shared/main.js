@@ -1,5 +1,3 @@
-const util = require("./util.js");
-
 exports.convert = function toHtml(structureToConvert) {
   const htmlToReturn =
     "\n<!DOCTYPE html>\n" + convertElementToHtml(0, structureToConvert);
@@ -15,11 +13,13 @@ function convertElementToHtml(indentLevel, elementArray, arrayContext) {
     );
   }
   if (isEmpty(elementArray)) {
-    const contextString = JSON.stringify(arrayContext, null, 2);
-    const errorMessage = util.stripMargin`
-      |Empty arrays are not a valid input.
-      |Context: ${contextString}
-      |`;
+    let errorMessage = "\nEmpty arrays are not a valid input.";
+
+    if (arrayContext) {
+      const contextString = JSON.stringify(arrayContext, null, 2);
+      errorMessage += `\nContext: ${contextString}\n`;
+    }
+
     throw new Error(errorMessage);
   }
   if (isAnEmptyElement(elementArray)) {
