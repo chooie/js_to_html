@@ -1,6 +1,6 @@
 {
   "name": "@chooie/js_to_html",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert JS data structures to HTML text",
   "main": "src/application/shared/main.js",
   "engines": {
@@ -18,8 +18,8 @@
     ]
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/chooie/js_to_html"
+    "type": "git",
+    "url": "https://github.com/chooie/js_to_html"
   },
   "author": "Charles Hebert",
   "license": "ISC",
