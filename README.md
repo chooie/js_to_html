@@ -1,6 +1,92 @@
 # JS to HTML
 Convert JS data structures to HTML text.
 
+## Install
+`npm install --save @chooie/js_to_html`
+
+## Public API
+```js
+function convert(element: Element): String
+```
+
+An Element is:
+
+`[elementName: String, ?&element: Element]`
+
+or
+
+`[elementName: String, htmlAttributes: { String: String }, ?&element: Element]`
+
+## Example
+```js
+const jsToHtml = require("@chooie/js_to_html");
+const structureToConvert = [
+  "html",
+  ["head"],
+  [
+    "body",
+    [
+      "div",
+      ["h1", { class: "class1" }, ["span", "Hello, world!"]],
+      ["p", { class: "class2" }, ["span", "Goodbye, world!"]],
+      makeListOfNames(["Charlie", "Rachael", "Maddie", "Lilla", "Paul"])
+    ]
+  ]
+];
+
+console.log(jsToHtml.convert(structureToConvert));
+
+function makeListOfNames(names) {
+  return [
+    "ul",
+    { class: "names-list" },
+    ...names.map(function(name) {
+      return ["li", { class: "names-list__name" }, name];
+    })
+  ];
+}
+```
+
+===>
+
+```html
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div>
+      <h1 class="class1">
+        <span>
+          Hello, world!
+        </span>
+      </h1>
+      <p class="class2">
+        <span>
+          Goodbye, world!
+        </span>
+      </p>
+      <ul class="names-list">
+        <li class="names-list__name">
+          Charlie
+        </li>
+        <li class="names-list__name">
+          Rachael
+        </li>
+        <li class="names-list__name">
+          Maddie
+        </li>
+        <li class="names-list__name">
+          Lilla
+        </li>
+        <li class="names-list__name">
+          Paul
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
+```
+
 ## Development
 View the available tasks to run
 

@@ -190,10 +190,20 @@ describe("SHARED: Main", function() {
         [
           "div",
           ["h1", { class: "class1" }, ["span", "Hello, world!"]],
-          ["p", { class: "class2" }, ["span", "Goodbye, world!"]]
+          ["p", { class: "class2" }, ["span", "Goodbye, world!"]],
+          makeListOfNames(["Charlie", "Rachael", "Maddie", "Lilla", "Paul"])
         ]
       ]
     ];
+    function makeListOfNames(names) {
+      return [
+        "ul",
+        { class: "names-list" },
+        ...names.map(function(name) {
+          return ["li", { class: "names-list__name" }, name];
+        })
+      ];
+    }
     const convertedStructure = main.convert(structureToConvert);
     const expectedHtml = util.stripMargin`
       |<!DOCTYPE html>
@@ -211,6 +221,23 @@ describe("SHARED: Main", function() {
       |          Goodbye, world!
       |        </span>
       |      </p>
+      |      <ul class="names-list">
+      |        <li class="names-list__name">
+      |          Charlie
+      |        </li>
+      |        <li class="names-list__name">
+      |          Rachael
+      |        </li>
+      |        <li class="names-list__name">
+      |          Maddie
+      |        </li>
+      |        <li class="names-list__name">
+      |          Lilla
+      |        </li>
+      |        <li class="names-list__name">
+      |          Paul
+      |        </li>
+      |      </ul>
       |    </div>
       |  </body>
       |</html>
