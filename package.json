@@ -17,6 +17,10 @@
       "git add"
     ]
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/chooie/js_to_html"
+  },
   "author": "Charles Hebert",
   "license": "ISC",
   "devDependencies": {
