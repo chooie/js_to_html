@@ -9,7 +9,6 @@ exports.make = function make(portNumber, contentDir, notFoundPageToServe) {
   httpServer.set("view engine", "js");
 
   httpServer.get("/", function(req, res) {
-    res.set("Content-Type", "text/html");
     res.render("index");
   });
 
