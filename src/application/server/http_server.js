@@ -9,7 +9,7 @@ exports.make = function make(portNumber, contentDir, notFoundPageToServe) {
   httpServer.set("view engine", "page.js");
 
   httpServer.get("/", function(req, res) {
-    res.render("index");
+    res.render("index", { colors: ["Red", "Blue", "Green"] });
   });
 
   httpServer.use(express.static(contentDir));

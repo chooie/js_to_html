@@ -13,6 +13,7 @@ exports.page = function page(options) {
     [
       "body",
       ["h1", { id: "header-text" }, "Hello, world!"],
+      makeList(options.colors),
       ["script", { src: "bundle.js" }],
       [
         "script",
@@ -24,3 +25,12 @@ exports.page = function page(options) {
     ]
   ];
 };
+
+function makeList(items) {
+  return [
+    "ul",
+    ...items.map(function(item) {
+      return ["li", item];
+    })
+  ];
+}
