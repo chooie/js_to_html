@@ -11,10 +11,6 @@ module.exports = function(config) {
       // Include all files except server
       "src/application/!(server)/**/*.js",
       {
-        pattern: "src/application/server/**/*.js",
-        included: false
-      },
-      {
         // Don't automatically request in iframe any non-js files - but make
         // them available to be served
         pattern: "src/application/client/content/**/!(*.js)",
@@ -29,7 +25,7 @@ module.exports = function(config) {
     preprocessors: {
       // Include all files except server
       "src/application/!(server)/**/*.js": ["commonjs"],
-      "src/application/server/**/*.page.js": ["js_to_html"]
+      "src/application/client/content/**/*.page.js": ["js_to_html"]
     },
 
     // test results reporter to use
