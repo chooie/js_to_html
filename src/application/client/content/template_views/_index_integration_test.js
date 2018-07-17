@@ -1,5 +1,5 @@
 let assert = require("_assert");
-let cssHelper = require("./_css_test_helper.js");
+let cssHelper = require("../_css_test_helper.js");
 
 describe("CSS: Home page", function() {
   let frame;
@@ -7,7 +7,8 @@ describe("CSS: Home page", function() {
   before(function(done) {
     this.timeout(10 * 1000);
     var options = {
-      src: "/base/src/application/client/content/index.page.html",
+      src:
+        "/base/src/application/client/content/template_views/index.page.html",
       width: cssHelper.smallestDeviceWidth
     };
     frame = cssHelper.createFrame(options, done);

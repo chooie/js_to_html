@@ -1,5 +1,5 @@
 const head = require("./partials/head.js");
-const util = require("../../shared/util.js");
+const util = require("../../../shared/util.js");
 
 exports.page = function page(options) {
   return [

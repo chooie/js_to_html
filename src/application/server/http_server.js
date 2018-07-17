@@ -4,7 +4,7 @@ const util = require("util");
 exports.make = function make(portNumber, contentDir, notFoundPageToServe) {
   const httpServer = express();
 
-  httpServer.set("views", "src/application/client/content/");
+  httpServer.set("views", "src/application/client/content/template_views/");
   httpServer.engine("page.js", require("@chooie/js_to_html").__express);
   httpServer.set("view engine", "page.js");
 
