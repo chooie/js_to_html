@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/v/@chooie/js_to_html)
+
 # JS to HTML
 Convert JS data structures to HTML text.
 
